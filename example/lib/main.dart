@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -30,7 +30,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  bool _isFirstRun;
+  bool? _isFirstRun;
+  bool? _isFirstCall;
 
   void _checkFirstRun() async {
     bool ifr = await IsFirstRun.isFirstRun();
@@ -39,15 +40,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _resetFirstRun() async {
-    await IsFirstRun.reset();
-    _checkFirstRun();
+  void _checkFirstCall() async {
+    bool ifc = await IsFirstRun.isFirstCall();
+    setState(() {
+      _isFirstCall = ifc;
+    });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void _reset() async {
+    await IsFirstRun.reset();
     _checkFirstRun();
+    _checkFirstCall();
   }
 
   @override
@@ -58,18 +61,19 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-                child: Text('Check if first run'), onPressed: _checkFirstRun),
-            RaisedButton(child: Text('Reset'), onPressed: _resetFirstRun),
-            (_isFirstRun != null)
-                ? Text(
-                    'Is first run: $_isFirstRun',
-                  )
-                : null,
-          ].where((element) => element != null).toList(),
-        ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(
+                  child: Text('Check first run'), onPressed: _checkFirstRun),
+              ElevatedButton(
+                  child: Text('Check first call'), onPressed: _checkFirstCall),
+              ElevatedButton(child: Text('Reset'), onPressed: _reset),
+              SizedBox(height: 24),
+              Text(
+                  'Is first run: ${_isFirstRun != null ? _isFirstRun : 'Unknown'}'),
+              Text(
+                  'Is first call: ${_isFirstCall != null ? _isFirstCall : 'Unknown'}'),
+            ]),
       ),
     );
   }

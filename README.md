@@ -16,10 +16,18 @@ Import `is_first_run.dart`:
 import 'package:is_first_run/is_first_run.dart';
 ```
 
-Then check, if this is the first time the app is run:
+To check if this is the first time the app is run:
 
 ```dart
 bool firstRun = await IsFirstRun.isFirstRun();
+```
+
+If it is the first call of this method since installing the app, the method will return true for as long as the app keeps running.After a restart of the app it returns `false`.
+
+There is also a method that allows you to check if it is the first time you call it:
+
+```dart
+bool firstCall = await IsFirstRun.isFirstCall();
 ```
 
 Calling this function for the first time after installing the app returns `true`, after that every function call returns `false`.
@@ -30,7 +38,7 @@ You can reset the plugin by calling
 await IsFirstRun.reset();
 ```
 
-After calling `reset()` the first call of `isFirstRun()` will return `true`, subsequent calls will return `false` again.
+After calling `reset()`, calling `isFirstRun()` will return true as long as the app is running. After a restart, it will return false again. The first call of `isFirstCall()` will return `true`, subsequent calls will return `false` again.
 
 ## Example
 

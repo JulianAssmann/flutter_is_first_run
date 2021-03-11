@@ -1,17 +1,17 @@
 name: is_first_run
 description: A simple package to check if it is the first time the app runs.
-version: 0.1.0
+version: 1.0.0
 repository: https://github.com/JulianAssmann/flutter_is_first_run
 homepage: https://julianassmann.de
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^0.5.12+4
+  shared_preferences: ^2.0.4
 
 dev_dependencies:
   flutter_test:
